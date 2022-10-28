@@ -15,11 +15,14 @@ public class UserRequestDto {
 	@NotNull(message = "The name is required")
 	public String name;
 	@NotNull(message = "The email is required")
+	@Email(message = "Invalid email")
 	public String email;
 	@NotNull(message = "The address is required")
 	public String address;
 	@NotNull(message = "The phone is required")
 	public String phone;
+	@NotNull(message = "User type is required")
 	public UserType userType;
+	@NotNull(message = "Money is required")
 	public Double money;
 }
