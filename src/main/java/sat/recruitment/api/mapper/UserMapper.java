@@ -20,13 +20,13 @@ public class UserMapper implements IUserMapper{
 	}
 
 	@Override
-	public UserResponseDto toDomain(User userResponse) {
-		return UserResponseDto.build(userResponse.getName(), 
-				userResponse.getEmail(),
-				userResponse.getAddress(), 
-				userResponse.getPhone(), 
-				userResponse.getUserType(), 
-				userResponse.getMoney());
+	public UserResponseDto toDomain(User user) {
+		return UserResponseDto.build(user.getName(), 
+				user.getEmail(),
+				user.getAddress(), 
+				user.getPhone(), 
+				user.getUserType(), 
+				user.getMoney());
 	}
 
 }

@@ -16,8 +16,8 @@ public class SuperUser extends User {
 
 	public void calculateMoney() {
 		if (money > 100){
-            var percentage = Double.valueOf(0.20);
-            var gif = money * percentage;
+			Double percentage = Double.valueOf(0.20);
+			Double gif = money * percentage;
             money += gif;
         }
 	}

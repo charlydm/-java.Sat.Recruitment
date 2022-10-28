@@ -6,19 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import sat.recruitment.api.dto.UserRequestDto;
 import sat.recruitment.api.dto.UserResponseDto;
 import sat.recruitment.api.entity.User;
 import sat.recruitment.api.mapper.IUserMapper;
-import sat.recruitment.api.repository.UserRepository;
+import sat.recruitment.api.repository.IUserRepository;
 
 @Service
 public class UserService {
 	
-	private final IUserMapper mapper;
-	
 	@Autowired
-	private UserRepository repository;
+	private IUserRepository repository;
+	
+	private final IUserMapper mapper;
 	
 	UserService(IUserMapper mapper){
 		this.mapper = mapper;
@@ -26,18 +27,17 @@ public class UserService {
 	
 	public UserResponseDto createUser(UserRequestDto userRequestDto) {
 		User user = mapper.toDomain(userRequestDto);
-		isDuplicated(user);
+		List<User> allUsers = repository.findAllUser();
+		isDuplicated(user, allUsers);
 		
 		User usertype = user.getType();
 		usertype.calculateMoney();
 		
 		User userResponse = repository.save(usertype);
-		
 		return mapper.toDomain(userResponse);
 	}
 	
-	public void isDuplicated(User user) {
-		List<User> allUsers = repository.findAllUser();
+	public void isDuplicated(User user, List<User> allUsers) {
 		Optional<User> isDuplicated = allUsers.stream()
 				.filter(u -> (u.getEmail().equals(user.getEmail()) || u.getPhone().equals(user.getPhone()))
 						|| (u.getName().equals(user.getName()) && u.getAddress().equals(user.getAddress())))
